@@ -1,0 +1,35 @@
+---
+abstract: 'Configuration for clustericious clients or servers'
+author:
+  - 'Brian Duggan <brian.duggan@nasa.gov>'
+build_requires:
+  Hash::Merge: 0
+  IO::Prompt: 0
+  JSON::XS: 0
+  Log::Log4perl: 0
+  Module::Build: 0.36
+  Mojolicious: 1.01
+  Test::More: 0
+  YAML::XS: 0
+configure_requires:
+  Module::Build: 0.4
+dynamic_config: 1
+generated_by: 'Module::Build version 0.4, CPAN::Meta::Converter version 2.120921'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Clustericious-Config
+provides:
+  Clustericious::Config:
+    file: lib/Clustericious/Config.pm
+    version: 0.10
+  Clustericious::Config::Password:
+    file: lib/Clustericious/Config/Password.pm
+    version: 0
+  Clustericious::Config::Plugin:
+    file: lib/Clustericious/Config/Plugin.pm
+    version: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.10

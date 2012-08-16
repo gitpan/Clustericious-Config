@@ -1,0 +1,18 @@
+Build.PL
+Changes
+etc/common.conf.sample
+etc/log4perl.conf.sample
+etc/MyApp.conf.sample
+lib/Clustericious/Config.pm
+lib/Clustericious/Config/Password.pm
+lib/Clustericious/Config/Plugin.pm
+Makefile.PL
+MANIFEST			This list of files
+MANIFEST.SKIP
+META.yml
+README
+t/config.t
+t/config_multi.t
+t/pod.t
+t/yaml.t
+META.json
