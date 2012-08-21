@@ -94,7 +94,7 @@ use Clustericious::Config::Password;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use List::Util qw/first/;
 use JSON::XS;
@@ -131,7 +131,7 @@ sub new {
     return $Singletons{$arg} if exists($Singletons{$arg});
 
     my $we_are_testing_this_module = 0;
-    if ($ENV{HARNESS_ACTIVE} and Module::Build->can("current")) {
+    if ($ENV{HARNESS_ACTIVE} and -d '_build' && -e '_build/build_params' && Module::Build->can("current")) {
         my $mb = Module::Build->current;
         $we_are_testing_this_module = $mb && $mb->module_name eq $arg;
     }

@@ -23,7 +23,7 @@ name: Clustericious-Config
 provides:
   Clustericious::Config:
     file: lib/Clustericious/Config.pm
-    version: 0.10
+    version: 0.11
   Clustericious::Config::Password:
     file: lib/Clustericious/Config/Password.pm
     version: 0
@@ -32,4 +32,4 @@ provides:
     version: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.10
+version: 0.11
