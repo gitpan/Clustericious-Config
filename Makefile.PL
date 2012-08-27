@@ -5,12 +5,13 @@ WriteMakefile
   'NAME' => 'Clustericious-Config',
   'VERSION_FROM' => 'lib/Clustericious/Config.pm',
   'PREREQ_PM' => {
+                   'File::HomeDir' => 0,
                    'Hash::Merge' => 0,
-                   'IO::Prompt' => 0,
                    'JSON::XS' => 0,
                    'Log::Log4perl' => 0,
                    'Module::Build' => '0.36',
                    'Mojolicious' => '1.01',
+                   'Term::Prompt' => 0,
                    'Test::More' => 0,
                    'YAML::XS' => 0
                  },

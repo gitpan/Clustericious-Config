@@ -13,8 +13,8 @@ sub sentinel {
 
 sub get {
     my $self = shift;
-    require IO::Prompt; # done here instead of above to avoid warnings about CHECK block
-    $Stashed ||= IO::Prompt::prompt ("Password:",-e=>'*');
+    require Term::Prompt;
+    $Stashed ||= Term::Prompt::prompt('p', 'Password:', '', '');
     $Stashed;
 }
 

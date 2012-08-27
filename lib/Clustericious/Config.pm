@@ -94,7 +94,7 @@ use Clustericious::Config::Password;
 use strict;
 use warnings;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 use List::Util qw/first/;
 use JSON::XS;
@@ -106,6 +106,7 @@ use Clustericious::Config::Plugin;
 use Data::Dumper;
 use Cwd qw/getcwd abs_path/;
 use Module::Build;
+use File::HomeDir;
 
 our %Singletons;
 
@@ -165,7 +166,7 @@ sub new {
 
         @conf_dirs = $ENV{CLUSTERICIOUS_CONF_DIR} if defined( $ENV{CLUSTERICIOUS_CONF_DIR} );
 
-        push @conf_dirs, ( "$ENV{HOME}/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module;
+        push @conf_dirs, ( File::HomeDir->my_home . "/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module;
         my $conf_file = "$arg.conf";
         my ($dir) = first { -e "$_/$conf_file" } @conf_dirs;
         if ($dir) {
@@ -298,6 +299,12 @@ is a subdirectory of the current directory, then
 it will be used.  This allows unit tests to provide
 configuration directories, but avoids using configurations
 that are outside of the build tree during unit testing.
+
+=head1 AUTHORS
+
+Brian Duggan
+
+Graham Ollis
 
 =head1 NOTES
 
