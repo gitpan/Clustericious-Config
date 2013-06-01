@@ -94,26 +94,26 @@ use Clustericious::Config::Password;
 use strict;
 use warnings;
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
-use List::Util qw/first/;
+use List::Util;
 use JSON::XS;
-use YAML::XS qw/Load Dump/;
+use YAML::XS ();
 use Mojo::Template;
 use Log::Log4perl qw/:easy/;
-use Storable qw/dclone/;
+use Storable;
 use Clustericious::Config::Plugin;
 use Data::Dumper;
-use Cwd qw/getcwd abs_path/;
+use Cwd ();
 use Module::Build;
-use File::HomeDir;
+use File::HomeDir ();
 
 our %Singletons;
 
 sub _is_subdir {
     my ($child,$parent) = @_;
-    my $p = abs_path($parent);
-    my $c = abs_path($child);
+    my $p = Cwd::abs_path($parent);
+    my $c = Cwd::abs_path($child);
     return ($c =~ m[^\Q$p\E]) ? 1 : 0;
 }
 
@@ -149,16 +149,16 @@ sub new {
         die $rendered if ( (ref($rendered)) =~ /Exception/ );
         my $type = $rendered =~ /^---/ ? 'yaml' : 'json';
         $conf_data = $type eq 'yaml' ?
-           eval { Load( $rendered ); }
+           eval { YAML::XS::Load( $rendered ); }
          : eval { $json->decode( $rendered ); };
         LOGDIE "Could not parse $type \n-------\n$rendered\n---------\n$@\n" if $@;
     } elsif (ref $arg eq 'HASH') {
-        $conf_data = dclone $arg;
+        $conf_data = Storable::dclone $arg;
     } elsif (
           $we_are_testing_this_module
           && !(
               $ENV{CLUSTERICIOUS_CONF_DIR}
-              && _is_subdir( $ENV{CLUSTERICIOUS_CONF_DIR}, getcwd() )
+              && _is_subdir( $ENV{CLUSTERICIOUS_CONF_DIR}, Cwd::getcwd() )
           )) {
           $conf_data = {};
     } else {
@@ -168,7 +168,7 @@ sub new {
 
         push @conf_dirs, ( File::HomeDir->my_home . "/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module;
         my $conf_file = "$arg.conf";
-        my ($dir) = first { -e "$_/$conf_file" } @conf_dirs;
+        my ($dir) = List::Util::first { -e "$_/$conf_file" } @conf_dirs;
         if ($dir) {
             TRACE "reading from config file $dir/$conf_file";
             $filename = "$dir/$conf_file";
@@ -181,7 +181,7 @@ sub new {
             }
             $conf_data =
               $type eq 'yaml'
-              ? eval { Load($rendered) }
+              ? eval { YAML::XS::Load($rendered) }
               : eval { $json->decode($rendered) };
             LOGDIE "Could not parse $type\n-------\n$rendered\n---------\n$@\n" if $@;
         } else {
@@ -221,7 +221,7 @@ sub _add_heuristics {
 
 sub dump_as_yaml {
     my $c = shift;
-    return Dump($c);
+    return YAML::XS::Dump($c);
 }
 
 sub _stringify {

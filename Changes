@@ -1,11 +1,16 @@
 Revision history for Clustericious-Config
 
-0.10    Thu Aug 16 11:49:10 EDT 2012
-        first release
+0.13    Sat Jun  1 13:23:55 EDT 2013
+        fixed autoload conflicts, home, dclone, etc.
+
+0.12    Mon Aug 27 10:38:42 EDT 2012
+        portability improvements (Graham)
 
 0.11    Tue Aug 21 17:14:45 EDT 2012
         support Makefile.PL
 
-0.12    Mon Aug 27 10:38:42 EDT 2012
-        portability improvements (Graham)
+0.10    Thu Aug 16 11:49:10 EDT 2012
+        first release
+
+
 

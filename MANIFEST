@@ -15,4 +15,5 @@ README
 t/config.t
 t/config_multi.t
 t/pod.t
+t/special.t
 t/yaml.t
