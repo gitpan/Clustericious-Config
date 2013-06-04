@@ -93,27 +93,30 @@ use Clustericious::Config::Password;
 
 use strict;
 use warnings;
+use v5.10;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 use List::Util;
+use Scalar::Util;
 use JSON::XS;
-use YAML::XS ();
+use YAML::XS qw/Load Dump/;
 use Mojo::Template;
 use Log::Log4perl qw/:easy/;
-use Storable;
+use Storable qw/dclone/;
 use Clustericious::Config::Plugin;
 use Data::Dumper;
-use Cwd ();
+use Data::Rmap qw/rmap/;
+use Cwd qw/getcwd abs_path/;
 use Module::Build;
-use File::HomeDir ();
+use File::HomeDir;
 
 our %Singletons;
 
 sub _is_subdir {
     my ($child,$parent) = @_;
-    my $p = Cwd::abs_path($parent);
-    my $c = Cwd::abs_path($child);
+    my $p = abs_path($parent);
+    my $c = abs_path($child);
     return ($c =~ m[^\Q$p\E]) ? 1 : 0;
 }
 
@@ -140,7 +143,14 @@ sub new {
     my $conf_data;
 
     my $json = JSON::XS->new;
-    my $mt = Mojo::Template->new(namespace => 'Clustericious::Config::Plugin')->auto_escape(0);
+    
+    state $package_counter = 0;
+    my $namespace = "Clustericious::Config::Package$package_counter";
+    eval qq{ package $namespace; use Clustericious::Config::Plugin; };
+    die $@ if $@;
+    $package_counter++;
+    
+    my $mt = Mojo::Template->new(namespace => $namespace)->auto_escape(0);
     $mt->prepend( join "\n", map " my \$$_ = q{$t_args{$_}};", sort keys %t_args );
 
     my $filename;
@@ -149,16 +159,16 @@ sub new {
         die $rendered if ( (ref($rendered)) =~ /Exception/ );
         my $type = $rendered =~ /^---/ ? 'yaml' : 'json';
         $conf_data = $type eq 'yaml' ?
-           eval { YAML::XS::Load( $rendered ); }
+           eval { Load( $rendered ); }
          : eval { $json->decode( $rendered ); };
         LOGDIE "Could not parse $type \n-------\n$rendered\n---------\n$@\n" if $@;
     } elsif (ref $arg eq 'HASH') {
-        $conf_data = Storable::dclone $arg;
+        $conf_data = dclone $arg;
     } elsif (
           $we_are_testing_this_module
           && !(
               $ENV{CLUSTERICIOUS_CONF_DIR}
-              && _is_subdir( $ENV{CLUSTERICIOUS_CONF_DIR}, Cwd::getcwd() )
+              && _is_subdir( $ENV{CLUSTERICIOUS_CONF_DIR}, getcwd() )
           )) {
           $conf_data = {};
     } else {
@@ -181,7 +191,7 @@ sub new {
             }
             $conf_data =
               $type eq 'yaml'
-              ? eval { YAML::XS::Load($rendered) }
+              ? eval { Load($rendered) }
               : eval { $json->decode($rendered) };
             LOGDIE "Could not parse $type\n-------\n$rendered\n---------\n$@\n" if $@;
         } else {
@@ -204,7 +214,9 @@ sub new {
         eval $dome;
         die "error setting ISA : $@" if $@;
     }
-    bless $conf_data, $class;
+    my $self = bless $conf_data, $class;
+    rmap { $_ = $self->_maybe_unfreeze($_) } $conf_data;
+    return $self;
 }
 
 sub _add_heuristics {
@@ -221,7 +233,7 @@ sub _add_heuristics {
 
 sub dump_as_yaml {
     my $c = shift;
-    return YAML::XS::Dump($c);
+    return Dump($c);
 }
 
 sub _stringify {
@@ -230,6 +242,13 @@ sub _stringify {
 }
 
 sub DESTROY {
+}
+
+sub _maybe_unfreeze {
+    my $self = shift;
+    my $value = shift;
+    my $frozen = Clustericious::Config::Plugin::Conf->unfreeze($value) or return $value;
+    return $frozen->eval($self);
 }
 
 sub AUTOLOAD {
@@ -252,6 +271,7 @@ sub AUTOLOAD {
     my $invocant = ref $self;
     if (ref $value eq 'HASH') {
         $obj = $invocant->new($value);
+        $obj->{_parent} = $self;
     }
     no strict 'refs';
     *{ $invocant . "::$called" } = sub {
@@ -261,10 +281,10 @@ sub AUTOLOAD {
               unless exists($self->{$called});
           my $value = $self->{$called};
           return wantarray && (ref $value eq 'HASH' ) ? %$value
-          : wantarray && (ref $value eq 'ARRAY') ? @$value
-          :                       defined($obj)  ? $obj
+               : wantarray && (ref $value eq 'ARRAY') ? @$value
+               :                       defined($obj)  ? $obj
           : Clustericious::Config::Password->is_sentinel($value) ? Clustericious::Config::Password->get
-          :                                        $value;
+          : $value;
     };
     use strict 'refs';
     $self->$called;

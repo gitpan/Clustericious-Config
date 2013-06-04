@@ -5,6 +5,7 @@ use Data::Dumper;
 use strict;
 use warnings;
 
+our $VERSION = '0.14';
 our $Stashed;
 
 sub sentinel {
