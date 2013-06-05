@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use Test::More;
+plan skip_all => "RELEASE_TESTING not set" unless $ENV{RELEASE_TESTING};
 
 # Ensure a recent version of Test::Pod
 my $min_tp = 1.22;

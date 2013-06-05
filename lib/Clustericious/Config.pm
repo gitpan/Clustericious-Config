@@ -95,28 +95,26 @@ use strict;
 use warnings;
 use v5.10;
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 use List::Util;
-use Scalar::Util;
 use JSON::XS;
-use YAML::XS qw/Load Dump/;
+use YAML::XS ();
 use Mojo::Template;
 use Log::Log4perl qw/:easy/;
-use Storable qw/dclone/;
+use Storable;
 use Clustericious::Config::Plugin;
 use Data::Dumper;
-use Data::Rmap qw/rmap/;
-use Cwd qw/getcwd abs_path/;
+use Cwd ();
 use Module::Build;
-use File::HomeDir;
+use File::HomeDir ();
 
 our %Singletons;
 
 sub _is_subdir {
     my ($child,$parent) = @_;
-    my $p = abs_path($parent);
-    my $c = abs_path($child);
+    my $p = Cwd::abs_path($parent);
+    my $c = Cwd::abs_path($child);
     return ($c =~ m[^\Q$p\E]) ? 1 : 0;
 }
 
@@ -159,16 +157,16 @@ sub new {
         die $rendered if ( (ref($rendered)) =~ /Exception/ );
         my $type = $rendered =~ /^---/ ? 'yaml' : 'json';
         $conf_data = $type eq 'yaml' ?
-           eval { Load( $rendered ); }
+           eval { YAML::XS::Load( $rendered ); }
          : eval { $json->decode( $rendered ); };
         LOGDIE "Could not parse $type \n-------\n$rendered\n---------\n$@\n" if $@;
     } elsif (ref $arg eq 'HASH') {
-        $conf_data = dclone $arg;
+        $conf_data = Storable::dclone $arg;
     } elsif (
           $we_are_testing_this_module
           && !(
               $ENV{CLUSTERICIOUS_CONF_DIR}
-              && _is_subdir( $ENV{CLUSTERICIOUS_CONF_DIR}, getcwd() )
+              && _is_subdir( $ENV{CLUSTERICIOUS_CONF_DIR}, Cwd::getcwd() )
           )) {
           $conf_data = {};
     } else {
@@ -191,7 +189,7 @@ sub new {
             }
             $conf_data =
               $type eq 'yaml'
-              ? eval { Load($rendered) }
+              ? eval { YAML::XS::Load($rendered) }
               : eval { $json->decode($rendered) };
             LOGDIE "Could not parse $type\n-------\n$rendered\n---------\n$@\n" if $@;
         } else {
@@ -214,9 +212,7 @@ sub new {
         eval $dome;
         die "error setting ISA : $@" if $@;
     }
-    my $self = bless $conf_data, $class;
-    rmap { $_ = $self->_maybe_unfreeze($_) } $conf_data;
-    return $self;
+    bless $conf_data, $class;
 }
 
 sub _add_heuristics {
@@ -233,7 +229,7 @@ sub _add_heuristics {
 
 sub dump_as_yaml {
     my $c = shift;
-    return Dump($c);
+    return YAML::XS::Dump($c);
 }
 
 sub _stringify {
@@ -242,13 +238,6 @@ sub _stringify {
 }
 
 sub DESTROY {
-}
-
-sub _maybe_unfreeze {
-    my $self = shift;
-    my $value = shift;
-    my $frozen = Clustericious::Config::Plugin::Conf->unfreeze($value) or return $value;
-    return $frozen->eval($self);
 }
 
 sub AUTOLOAD {
@@ -271,7 +260,6 @@ sub AUTOLOAD {
     my $invocant = ref $self;
     if (ref $value eq 'HASH') {
         $obj = $invocant->new($value);
-        $obj->{_parent} = $self;
     }
     no strict 'refs';
     *{ $invocant . "::$called" } = sub {
@@ -281,10 +269,10 @@ sub AUTOLOAD {
               unless exists($self->{$called});
           my $value = $self->{$called};
           return wantarray && (ref $value eq 'HASH' ) ? %$value
-               : wantarray && (ref $value eq 'ARRAY') ? @$value
-               :                       defined($obj)  ? $obj
+          : wantarray && (ref $value eq 'ARRAY') ? @$value
+          :                       defined($obj)  ? $obj
           : Clustericious::Config::Password->is_sentinel($value) ? Clustericious::Config::Password->get
-          : $value;
+          :                                        $value;
     };
     use strict 'refs';
     $self->$called;

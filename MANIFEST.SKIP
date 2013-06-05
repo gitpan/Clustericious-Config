@@ -49,3 +49,5 @@
 ^MYMETA\.json$
 
 util/perl-reversion
+
+.travis.yml

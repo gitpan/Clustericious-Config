@@ -22,7 +22,6 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Data::Rmap" : "0",
             "File::HomeDir" : "0",
             "Hash::Merge" : "0",
             "JSON::XS" : "0",
@@ -36,33 +35,36 @@
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.40"
+            "Module::Build" : "0.36"
          }
       }
    },
    "provides" : {
       "Clustericious::Config" : {
          "file" : "lib/Clustericious/Config.pm",
-         "version" : "0.14"
+         "version" : "0.15"
       },
       "Clustericious::Config::Password" : {
          "file" : "lib/Clustericious/Config/Password.pm",
-         "version" : "0.14"
+         "version" : "0.15"
       },
       "Clustericious::Config::Plugin" : {
          "file" : "lib/Clustericious/Config/Plugin.pm",
-         "version" : "0.14"
-      },
-      "Clustericious::Config::Plugin::Conf" : {
-         "file" : "lib/Clustericious/Config/Plugin/Conf.pm",
-         "version" : "0.14"
+         "version" : "0.15"
       }
    },
    "release_status" : "stable",
    "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/plicease/Clustericious-Config/issues"
+      },
+      "homepage" : "http://search.cpan.org/dist/Clustericious-Config/",
       "license" : [
          "http://dev.perl.org/licenses/"
-      ]
+      ],
+      "repository" : {
+         "url" : "git://github.com/plicease/Clustericious-Config.git"
+      }
    },
-   "version" : "0.14"
+   "version" : "0.15"
 }

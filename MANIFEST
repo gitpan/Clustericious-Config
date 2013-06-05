@@ -5,7 +5,6 @@ etc/log4perl.conf.sample
 etc/MyApp.conf.sample
 lib/Clustericious/Config.pm
 lib/Clustericious/Config/Password.pm
-lib/Clustericious/Config/Plugin/Conf.pm
 lib/Clustericious/Config/Plugin.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
@@ -15,7 +14,7 @@ README
 t/config.t
 t/config_multi.t
 t/pod.t
+t/special.t
 t/yaml.t
-t/helpers.t
 t/namespace.t
 dist.ini
