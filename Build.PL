@@ -27,7 +27,7 @@ my $builder = Module::Build->new(
         no_index => { directory => [ 'share', 'util' ], },
         resources => {
             bugtracker => 'https://github.com/plicease/Clustericious-Config/issues',
-            homepage   => "http://search.cpan.org/dist/Clustericious-Config/",
+            homepage   => "http://perl.wdlabs.com/Clustericious-Config",
             repository => 'git://github.com/plicease/Clustericious-Config.git',
         }
     }

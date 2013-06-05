@@ -5,7 +5,22 @@ use Data::Dumper;
 use strict;
 use warnings;
 
-our $VERSION = '0.15';
+=head1 NAME
+
+Clustericious::Config::Password - password routines for Clustericious::Config
+
+=head1 DESCRIPTION
+
+This module provides the machiery for handling passwords used by
+L<Clustericious::Config> and L<Clustericious::Config::Plugin>.
+
+=head1 SEE ALSO
+
+L<Clustericious::Config>, L<Clustericious>
+
+=cut
+
+our $VERSION = '0.16';
 our $Stashed;
 
 sub sentinel {

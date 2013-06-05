@@ -1,10 +1,18 @@
 =head1 NAME
 
-Clustericious::Config::Plugin -- Plugins for clustericious config files.
+Clustericious::Config::Plugin - Plugins for clustericious config files.
+
+=head1 SYNOPSIS
+
+ ---
+ % extend_config 'SomeOtherConfig';
+
+=head1 DESCRIPTION
+
+This module provides the functions available in all configuration files
+using L<Clustericious::Config>.
 
 =head1 FUNCTIONS
-
-=over
 
 =cut
 
@@ -16,11 +24,11 @@ use strict;
 use warnings;
 use base qw( Exporter );
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 our @mergeStack;
 our @EXPORT = qw( extends_config get_password conf );
 
-=item extends_config
+=head2 extends_config
 
 Extend the config using another config file.
 
@@ -56,7 +64,7 @@ sub do_merges {
     %$conf_data = %{ merge( \%so_far, $conf_data ) };
 }
 
-=item get_password
+=head2 get_password
 
 Prompt for a password, if it is needed.
 
@@ -66,11 +74,9 @@ sub get_password {
     return Clustericious::Config::Password->sentinel;
 }
 
-=back
-
 =head1 SEE ALSO
 
-L<Clustericious::Config>
+L<Clustericious::Config>, L<Clustericious>
 
 =cut
 

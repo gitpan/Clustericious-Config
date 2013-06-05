@@ -83,8 +83,6 @@ This will prompt the user the first time it is encountered.
 
 =head1 METHODS
 
-=over
-
 =cut
 
 package Clustericious::Config;
@@ -95,7 +93,7 @@ use strict;
 use warnings;
 use v5.10;
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 use List::Util;
 use JSON::XS;
@@ -118,7 +116,7 @@ sub _is_subdir {
     return ($c =~ m[^\Q$p\E]) ? 1 : 0;
 }
 
-=item new
+=head2 new
 
 Create a new Clustericious::Config object.  See the SYPNOSIS for
 possible invocations.
@@ -278,7 +276,7 @@ sub AUTOLOAD {
     $self->$called;
 }
 
-=item set_singleton
+=head2 set_singleton
 
 Clustericicious::Config->set_singleton(App => $object);
 
@@ -293,8 +291,6 @@ sub set_singleton {
     our %Singletons;
     $Singletons{$app} = $obj;
 }
-
-=back
 
 =head1 ENVIRONMENT
 
@@ -312,7 +308,7 @@ that are outside of the build tree during unit testing.
 
 Brian Duggan
 
-Graham Ollis
+Graham Ollis <gollis@sesda3.com>
 
 =head1 NOTES
 
