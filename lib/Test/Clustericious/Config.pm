@@ -13,7 +13,7 @@ use base qw( Test::Builder::Module Exporter );
 
 our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok );
 our @EXPORT_OK = @EXPORT;
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 my $config_dir;
 

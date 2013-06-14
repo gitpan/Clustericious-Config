@@ -1,5 +1,10 @@
 Revision history for Clustericious-Config
 
+0.18    Fri Jun 14 10:45:31 EDT 2013
+        - put template packages in Config::Clustericious::Config::TemplatePackage::Package{1,2,3...}
+        - put the app config package in Clustericious::Config::App::AppName
+
+0.17    Fri Jun 14 10:41:56 EDT 2013
         - added Test::Clustericious::Config
 
 0.16    Wed Jun  5 13:21:54 EDT 2013

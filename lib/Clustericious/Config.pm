@@ -93,7 +93,7 @@ use strict;
 use warnings;
 use v5.10;
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 use List::Util;
 use JSON::XS;
@@ -159,7 +159,7 @@ sub new {
     my $json = JSON::XS->new;
     
     state $package_counter = 0;
-    my $namespace = "Clustericious::Config::Package$package_counter";
+    my $namespace = "Clustericious::Config::TemplatePackage::Package$package_counter";
     eval qq{ package $namespace; use Clustericious::Config::Plugin; };
     die $@ if $@;
     $package_counter++;
@@ -223,7 +223,7 @@ sub new {
             $arg = "$arg";
             $arg =~ tr/a-zA-Z0-9//cd;
         }
-        $class = join '::', $class, $arg;
+        $class = join '::', $class, 'App', $arg;
         $class .= $class_suffix->{$arg} if $class_suffix->{$arg};
         my $dome = '@'."$class"."::ISA = ('".__PACKAGE__. "')";
         eval $dome;
