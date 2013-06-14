@@ -4,7 +4,7 @@
       "Brian Duggan <brian.duggan@nasa.gov>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Module::Build version 0.4002, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -42,15 +42,19 @@
    "provides" : {
       "Clustericious::Config" : {
          "file" : "lib/Clustericious/Config.pm",
-         "version" : "0.16"
+         "version" : "0.17"
       },
       "Clustericious::Config::Password" : {
          "file" : "lib/Clustericious/Config/Password.pm",
-         "version" : "0.16"
+         "version" : "0.17"
       },
       "Clustericious::Config::Plugin" : {
          "file" : "lib/Clustericious/Config/Plugin.pm",
-         "version" : "0.16"
+         "version" : "0.17"
+      },
+      "Test::Clustericious::Config" : {
+         "file" : "lib/Test/Clustericious/Config.pm",
+         "version" : "0.17"
       }
    },
    "release_status" : "stable",
@@ -66,5 +70,5 @@
          "url" : "git://github.com/plicease/Clustericious-Config.git"
       }
    },
-   "version" : "0.16"
+   "version" : "0.17"
 }

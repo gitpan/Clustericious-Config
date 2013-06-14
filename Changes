@@ -1,5 +1,7 @@
 Revision history for Clustericious-Config
 
+        - added Test::Clustericious::Config
+
 0.16    Wed Jun  5 13:21:54 EDT 2013
         - Documentation
 
