@@ -22,7 +22,7 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "File::HomeDir" : "0",
+            "File::HomeDir" : "0.91",
             "Hash::Merge" : "0",
             "JSON::XS" : "0",
             "Log::Log4perl" : "0",
@@ -42,19 +42,19 @@
    "provides" : {
       "Clustericious::Config" : {
          "file" : "lib/Clustericious/Config.pm",
-         "version" : "0.18"
+         "version" : "0.20"
       },
       "Clustericious::Config::Password" : {
          "file" : "lib/Clustericious/Config/Password.pm",
-         "version" : "0.18"
+         "version" : "0.20"
       },
       "Clustericious::Config::Plugin" : {
          "file" : "lib/Clustericious/Config/Plugin.pm",
-         "version" : "0.18"
+         "version" : "0.20"
       },
       "Test::Clustericious::Config" : {
          "file" : "lib/Test/Clustericious/Config.pm",
-         "version" : "0.18"
+         "version" : "0.20"
       }
    },
    "release_status" : "stable",
@@ -70,5 +70,5 @@
          "url" : "git://github.com/plicease/Clustericious-Config.git"
       }
    },
-   "version" : "0.18"
+   "version" : "0.20"
 }

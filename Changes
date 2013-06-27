@@ -1,5 +1,8 @@
 Revision history for Clustericious-Config
 
+0.20    Wed Jun 26 21:47:02 EDT 2013
+        - require File::HomeDir 0.91 (need File::HomeDir::Test)
+
 0.18    Fri Jun 14 10:45:31 EDT 2013
         - put template packages in Config::Clustericious::Config::TemplatePackage::Package{1,2,3...}
         - put the app config package in Clustericious::Config::App::AppName

@@ -21,7 +21,7 @@ my $builder = Module::Build->new(
         'Hash::Merge'          => 0,
         'Term::Prompt'         => 0,
         'Log::Log4perl'        => 0,
-        'File::HomeDir'        => 0,
+        'File::HomeDir'        => 0.91,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
     meta_merge => {
