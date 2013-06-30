@@ -13,7 +13,7 @@ use base qw( Test::Builder::Module Exporter );
 
 our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok );
 our @EXPORT_OK = @EXPORT;
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 my $config_dir;
 
@@ -198,6 +198,35 @@ sub home_directory_ok
 }
 
 1;
+
+=head1 EXAMPLES
+
+Here is an (abreviated) example from L<Yars> that show how to test against an app
+where you need to know the port/url of the app in the configuration
+file:
+
+ use Test::Mojo;
+ use Test::More tests => 1;
+ use Test::Clustericious::Config;
+ use Mojo::UserAgent;
+ use Yars;
+ 
+ my $t = Test::Mojo->new;
+ $t->ua(do {
+   my $ua = Mojo::UserAgent->new;
+   create_config_ok 'Yars', {
+     url => $ua->app_url,
+     servers => [ {
+       url => $ua->app_url,
+     } ]
+   };
+   $ua->app(Yars->new);
+   $ua
+ };
+ 
+ $t->get_ok('/status');
+
+To see the full tests see t/073_tempdir.t in the L<Yars> distribution.
 
 =head1 AUTHOR
 

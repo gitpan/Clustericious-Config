@@ -1,5 +1,9 @@
 Revision history for Clustericious-Config
 
+0.21    Sun Jun 30 18:23:49 EDT 2013
+        - added example to Test::Clustericious::Config
+        - add clconfig debug script
+
 0.20    Wed Jun 26 21:47:02 EDT 2013
         - require File::HomeDir 0.91 (need File::HomeDir::Test)
 
