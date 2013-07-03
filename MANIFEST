@@ -21,3 +21,4 @@ dist.ini
 lib/Test/Clustericious/Config.pm
 t/test_clustericious_config.t
 t/use.t
+bin/clconfig

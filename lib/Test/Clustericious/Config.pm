@@ -3,17 +3,27 @@ package Test::Clustericious::Config;
 use strict;
 use warnings;
 use v5.10;
-use File::HomeDir::Test;
+
+BEGIN {
+  unless($INC{'File/HomeDir/Test.pm'})
+  {
+    eval q{ use File::HomeDir::Test };
+    die $@ if $@;
+  }
+}
+
 use File::HomeDir;
 use YAML::XS qw( DumpFile );
 use File::Path qw( mkpath );
 use Clustericious::Config;
+use Mojo::Loader;
 
 use base qw( Test::Builder::Module Exporter );
 
-our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok );
+our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok create_config_helper_ok );
 our @EXPORT_OK = @EXPORT;
-our $VERSION = '0.21';
+our %EXPORT_TAGS = ( all => \@EXPORT );
+our $VERSION = '0.22';
 
 my $config_dir;
 
@@ -121,9 +131,26 @@ to the configuration file created.
 
 =cut
 
-sub create_config_ok
+sub create_config_ok ($;$$)
 {
   my($config_name, $config, $test_name) = @_;
+
+  unless(defined $config)
+  {
+    my $loader = Mojo::Loader->new;
+    my $caller = caller;
+    $loader->load($caller);
+    $config = $loader->data($caller, "etc/$config_name.conf");
+  }
+  
+  my $tb = __PACKAGE__->builder;  
+  my $ok = 1;
+  unless(defined $config)
+  {
+    $config = "---\n";
+    $tb->diag("unable to locate text for $config_name");
+    $ok = 0;
+  }
   
   my $config_filename = "$config_dir/$config_name.conf";
   
@@ -139,16 +166,18 @@ sub create_config_ok
       close $fh;
     }
   };
-  my $error = $@;
+  if(my $error = $@)
+  {
+    $ok = 0;
+    $tb->diag("exception: $error");
+  }
   
   $test_name //= "create config for $config_name at $config_filename";
   
   # remove any cached copy if necessary
   Clustericious::Config->_uncache($config_name);
-  
-  my $tb = __PACKAGE__->builder;  
-  $tb->ok($error eq '', $test_name);
-  $tb->diag("exception: $error") if $error;
+
+  $tb->ok($ok, $test_name);
   return $config_filename;
 }
 
@@ -161,7 +190,7 @@ directory created.
 
 =cut
 
-sub create_directory_ok
+sub create_directory_ok ($;$)
 {
   my($path, $test_name) = @_;
   
@@ -184,7 +213,7 @@ Returns the full path of the home directory.
 
 =cut
 
-sub home_directory_ok
+sub home_directory_ok (;$)
 {
   my($test_name) = @_;
   
@@ -195,6 +224,40 @@ sub home_directory_ok
   my $tb = __PACKAGE__->builder;
   $tb->ok(-d $fullpath, $test_name);
   return $fullpath;
+}
+
+=head2 create_config_helper_ok $helper_name, $helper_coderef, [ $test_name ]
+
+Install a helper which can be called from within a configuration template.
+Example:
+
+ my $counter;
+ create_config_helper_ok 'counter', sub { $counter++ };
+ create_config_ok 'MyApp', <<EOF;
+ ---
+ one: <%= counter %>
+ two: <%= counter %>
+ three: <% counter %>
+ EOF
+
+=cut
+
+sub create_config_helper_ok ($$;$)
+{
+  my($helper_name, $helper_code, $test_name) = @_;
+  
+  $test_name //= "create config helper $helper_name";
+  
+  require Clustericious::Config::Plugin;
+  do {
+    no strict 'refs';
+    *{"Clustericious::Config::Plugin::$helper_name"} = $helper_code;
+  };
+  push @Clustericious::Config::Plugin::EXPORT, $helper_name;
+  
+  my $tb = __PACKAGE__->builder;
+  $tb->ok(1, $test_name);
+  return;
 }
 
 1;
