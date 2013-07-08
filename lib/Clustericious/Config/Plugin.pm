@@ -24,7 +24,7 @@ use strict;
 use warnings;
 use base qw( Exporter );
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 our @mergeStack;
 our @EXPORT = qw( extends_config get_password );
 

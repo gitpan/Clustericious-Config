@@ -93,7 +93,7 @@ use strict;
 use warnings;
 use v5.10;
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 
 use List::Util;
 use JSON::XS;
@@ -197,6 +197,7 @@ sub new {
 
         push @conf_dirs, ( File::HomeDir->my_home . "/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module || __PACKAGE__->_testing;
         my $conf_file = "$arg.conf";
+        $conf_file =~ s/::/-/g;
         my ($dir) = List::Util::first { -e "$_/$conf_file" } @conf_dirs;
         if ($dir) {
             TRACE "reading from config file $dir/$conf_file";
@@ -329,6 +330,14 @@ is a subdirectory of the current directory, then
 it will be used.  This allows unit tests to provide
 configuration directories, but avoids using configurations
 that are outside of the build tree during unit testing.
+
+=head1 CAVEATS
+
+Some filesystems do not support filenames with a colen
+(:) character in them, so for apps with a double colen
+in them (for example L<Clustericious::HelloWorld>),
+a single dash character will be substituted for the name
+(for example C<Clustericious-HelloWorld.conf>).
 
 =head1 AUTHORS
 
