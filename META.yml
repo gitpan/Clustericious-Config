@@ -1,46 +1,48 @@
 ---
-abstract: 'Configuration for clustericious clients or servers'
+abstract: 'configuration files for Clustericious nodes.'
 author:
-  - 'Brian Duggan <brian.duggan@nasa.gov>'
+  - 'Graham Ollis <plicease@cpan.org>'
 build_requires:
-  File::HomeDir: 0.91
-  Hash::Merge: 0
-  JSON::XS: 0
-  Log::Log4perl: 0
-  Module::Build: 0.36
-  Mojolicious: 1.01
-  Term::Prompt: 0
+  File::HomeDir::Test: 0
+  File::Temp: 0
+  IO::File: 0
+  Module::Build: 0.3601
   Test::More: 0
-  YAML::XS: 0
 configure_requires:
-  Module::Build: 0.36
-dynamic_config: 1
-generated_by: 'Module::Build version 0.4002, CPAN::Meta::Converter version 2.120921'
+  Module::Build: 0.3601
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300021, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Clustericious-Config
-no_index:
-  directory:
-    - share
-    - util
-provides:
-  Clustericious::Config:
-    file: lib/Clustericious/Config.pm
-    version: 0.23
-  Clustericious::Config::Password:
-    file: lib/Clustericious/Config/Password.pm
-    version: 0.23
-  Clustericious::Config::Plugin:
-    file: lib/Clustericious/Config/Plugin.pm
-    version: 0.23
-  Test::Clustericious::Config:
-    file: lib/Test/Clustericious/Config.pm
-    version: 0.23
+requires:
+  Carp: 0
+  Cwd: 0
+  Data::Dumper: 0
+  Exporter: 0
+  File::HomeDir: 0
+  File::Path: 0
+  Hash::Merge: 0
+  JSON::XS: 0
+  List::Util: 0
+  Log::Log4perl: 0
+  Module::Build: 0
+  Mojo::Base: 0
+  Mojo::Loader: 0
+  Mojo::Template: 0
+  Path::Class::Dir: 0
+  Path::Class::File: 0
+  Storable: 0
+  Sys::Hostname: 0
+  Term::Prompt: 0
+  Test::Builder::Module: 0
+  YAML::XS: 0
+  base: 0
+  perl: v5.10.0
 resources:
-  bugtracker: https://github.com/plicease/Clustericious-Config/issues
-  homepage: http://perl.wdlabs.com/Clustericious-Config
-  license: http://dev.perl.org/licenses/
-  repository: git://github.com/plicease/Clustericious-Config.git
-version: 0.23
+  bugtracker: https://github.com/plicease/clustericious-config/issues
+  homepage: http://perl.wdlabs.com/Clustericious-Config/
+  repository: git://github.com/plicease/clustericious-config.git
+version: 0.24_05

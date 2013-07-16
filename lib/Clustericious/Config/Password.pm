@@ -1,26 +1,13 @@
 package Clustericious::Config::Password;
 
 use Data::Dumper;
-
 use strict;
 use warnings;
 
-=head1 NAME
+# ABSTRACT: password routines for Clustericious::Config
+our $VERSION = '0.24_05'; # VERSION
 
-Clustericious::Config::Password - password routines for Clustericious::Config
 
-=head1 DESCRIPTION
-
-This module provides the machiery for handling passwords used by
-L<Clustericious::Config> and L<Clustericious::Config::Plugin>.
-
-=head1 SEE ALSO
-
-L<Clustericious::Config>, L<Clustericious>
-
-=cut
-
-our $VERSION = '0.23';
 our $Stashed;
 
 sub sentinel {
@@ -41,4 +28,36 @@ sub is_sentinel {
 }
 
 1;
+
+
+__END__
+=pod
+
+=head1 NAME
+
+Clustericious::Config::Password - password routines for Clustericious::Config
+
+=head1 VERSION
+
+version 0.24_05
+
+=head1 DESCRIPTION
+
+This module provides the machinery for handling passwords used by
+L<Clustericious::Config> and L<Clustericious::Config::Helpers>.
+
+=head1 AUTHOR
+
+original author: Brian Duggan
+
+current maintainer: Graham Ollis <plicease@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by NASA GSFC.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
 

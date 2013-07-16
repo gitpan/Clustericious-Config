@@ -1,5 +1,26 @@
 Revision history for Clustericious-Config
 
+0.24_05   2013-07-16 05:54:20 America/New_York
+  - migrate to Dist::Zilla
+
+0.24_04 Sun Jul 14 23:04:22 EDT 2013
+        - added json helper for config files
+
+0.24_03 Thu Jul 11 15:54:31 EDT 2013
+        - bug fix: file returns a Path::Class::File instead of ::Dir
+
+0.24_02 Thu Jul 11 15:42:37 EDT 2013
+        - added hostname helper for config files
+        - added hostname_full helper for config files
+
+0.24_01 Wed Jul 10 22:02:15 EDT 2013
+        - converted clconfig into clustericious configtest
+
+0.24    Mon Jul  8 16:40:45 EDT 2013
+        - added home helper for config files
+        - added file helper for config files
+        - added dir helper for config files
+
 0.23    Sun Jul  7 21:27:21 EDT 2013
         - substitute - for :: in config filenames
           for example ~/etc/Clustericious::HelloWorld.conf should now be

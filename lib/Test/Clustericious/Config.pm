@@ -23,7 +23,6 @@ use base qw( Test::Builder::Module Exporter );
 our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok create_config_helper_ok );
 our @EXPORT_OK = @EXPORT;
 our %EXPORT_TAGS = ( all => \@EXPORT );
-our $VERSION = '0.23';
 
 my $config_dir;
 
@@ -38,9 +37,126 @@ sub _init
 
 BEGIN { _init() }
 
+# ABSTRACT: Test Clustericious::Config
+our $VERSION = '0.24_05'; # VERSION
+
+
+sub create_config_ok ($;$$)
+{
+  my($config_name, $config, $test_name) = @_;
+
+  my $fn = "$config_name.conf";
+  $fn =~ s/::/-/g;
+  
+  unless(defined $config)
+  {
+    my $loader = Mojo::Loader->new;
+    my $caller = caller;
+    $loader->load($caller);
+    $config = $loader->data($caller, "etc/$fn");
+  }
+  
+  my $tb = __PACKAGE__->builder;  
+  my $ok = 1;
+  unless(defined $config)
+  {
+    $config = "---\n";
+    $tb->diag("unable to locate text for $config_name");
+    $ok = 0;
+  }
+  
+  my $config_filename = "$config_dir/$fn";
+  
+  eval {
+    if(ref $config)
+    {
+      DumpFile($config_filename, $config);
+    }
+    else
+    {
+      open my $fh, '>', $config_filename;
+      print $fh $config;
+      close $fh;
+    }
+  };
+  if(my $error = $@)
+  {
+    $ok = 0;
+    $tb->diag("exception: $error");
+  }
+  
+  $test_name //= "create config for $config_name at $config_filename";
+  
+  # remove any cached copy if necessary
+  Clustericious::Config->_uncache($config_name);
+
+  $tb->ok($ok, $test_name);
+  return $config_filename;
+}
+
+
+sub create_directory_ok ($;$)
+{
+  my($path, $test_name) = @_;
+  
+  my $fullpath = $path;
+  $fullpath =~ s{^/}{};
+  $fullpath = join('/', File::HomeDir->my_home, $fullpath);
+  mkpath $fullpath, 0, 0700;
+  
+  $test_name //= "create directory $fullpath";
+  
+  my $tb = __PACKAGE__->builder;
+  $tb->ok(-d $fullpath, $test_name);
+  return $fullpath;
+}
+
+
+sub home_directory_ok (;$)
+{
+  my($test_name) = @_;
+  
+  my $fullpath = File::HomeDir->my_home;
+  
+  $test_name //= "home directory $fullpath";
+  
+  my $tb = __PACKAGE__->builder;
+  $tb->ok(-d $fullpath, $test_name);
+  return $fullpath;
+}
+
+
+sub create_config_helper_ok ($$;$)
+{
+  my($helper_name, $helper_code, $test_name) = @_;
+  
+  $test_name //= "create config helper $helper_name";
+  
+  require Clustericious::Config::Helpers;
+  do {
+    no strict 'refs';
+    *{"Clustericious::Config::Helpers::$helper_name"} = $helper_code;
+  };
+  push @Clustericious::Config::Helpers::EXPORT, $helper_name;
+  
+  my $tb = __PACKAGE__->builder;
+  $tb->ok(1, $test_name);
+  return;
+}
+
+1;
+
+
+__END__
+=pod
+
 =head1 NAME
 
 Test::Clustericious::Config - Test Clustericious::Config
+
+=head1 VERSION
+
+version 0.24_05
 
 =head1 SYNOPSIS
 
@@ -129,61 +245,6 @@ In addition to being a test that will produce a ok/not ok
 result as output, this function will return the full path
 to the configuration file created.
 
-=cut
-
-sub create_config_ok ($;$$)
-{
-  my($config_name, $config, $test_name) = @_;
-
-  my $fn = "$config_name.conf";
-  $fn =~ s/::/-/g;
-  
-  unless(defined $config)
-  {
-    my $loader = Mojo::Loader->new;
-    my $caller = caller;
-    $loader->load($caller);
-    $config = $loader->data($caller, "etc/$fn");
-  }
-  
-  my $tb = __PACKAGE__->builder;  
-  my $ok = 1;
-  unless(defined $config)
-  {
-    $config = "---\n";
-    $tb->diag("unable to locate text for $config_name");
-    $ok = 0;
-  }
-  
-  my $config_filename = "$config_dir/$fn";
-  
-  eval {
-    if(ref $config)
-    {
-      DumpFile($config_filename, $config);
-    }
-    else
-    {
-      open my $fh, '>', $config_filename;
-      print $fh $config;
-      close $fh;
-    }
-  };
-  if(my $error = $@)
-  {
-    $ok = 0;
-    $tb->diag("exception: $error");
-  }
-  
-  $test_name //= "create config for $config_name at $config_filename";
-  
-  # remove any cached copy if necessary
-  Clustericious::Config->_uncache($config_name);
-
-  $tb->ok($ok, $test_name);
-  return $config_filename;
-}
-
 =head2 create_directory_ok $path, [$test_name]
 
 Creates a directory in your test environment home directory.
@@ -191,43 +252,10 @@ This directory will be recursively removed when your test
 terminates.  This function returns the full path of the 
 directory created.
 
-=cut
-
-sub create_directory_ok ($;$)
-{
-  my($path, $test_name) = @_;
-  
-  my $fullpath = $path;
-  $fullpath =~ s{^/}{};
-  $fullpath = join('/', File::HomeDir->my_home, $fullpath);
-  mkpath $fullpath, 0, 0700;
-  
-  $test_name //= "create directory $fullpath";
-  
-  my $tb = __PACKAGE__->builder;
-  $tb->ok(-d $fullpath, $test_name);
-  return $fullpath;
-}
-
 =head2 home_directory_ok [$test_name]
 
-Tests that the temp homedirectory has been created okay.
+Tests that the temp home directory has been created okay.
 Returns the full path of the home directory.
-
-=cut
-
-sub home_directory_ok (;$)
-{
-  my($test_name) = @_;
-  
-  my $fullpath = File::HomeDir->my_home;
-  
-  $test_name //= "home directory $fullpath";
-  
-  my $tb = __PACKAGE__->builder;
-  $tb->ok(-d $fullpath, $test_name);
-  return $fullpath;
-}
 
 =head2 create_config_helper_ok $helper_name, $helper_coderef, [ $test_name ]
 
@@ -243,31 +271,9 @@ Example:
  three: <% counter %>
  EOF
 
-=cut
-
-sub create_config_helper_ok ($$;$)
-{
-  my($helper_name, $helper_code, $test_name) = @_;
-  
-  $test_name //= "create config helper $helper_name";
-  
-  require Clustericious::Config::Plugin;
-  do {
-    no strict 'refs';
-    *{"Clustericious::Config::Plugin::$helper_name"} = $helper_code;
-  };
-  push @Clustericious::Config::Plugin::EXPORT, $helper_name;
-  
-  my $tb = __PACKAGE__->builder;
-  $tb->ok(1, $test_name);
-  return;
-}
-
-1;
-
 =head1 EXAMPLES
 
-Here is an (abreviated) example from L<Yars> that show how to test against an app
+Here is an (abbreviated) example from L<Yars> that show how to test against an app
 where you need to know the port/url of the app in the configuration
 file:
 
@@ -296,20 +302,16 @@ To see the full tests see t/073_tempdir.t in the L<Yars> distribution.
 
 =head1 AUTHOR
 
-Graham Ollis <gollis@sesda3.com>
+original author: Brian Duggan
 
-=head1 SEE ALSO
+current maintainer: Graham Ollis <plicease@cpan.org>
 
-=over 4
+=head1 COPYRIGHT AND LICENSE
 
-=item *
+This software is copyright (c) 2013 by NASA GSFC.
 
-L<Clustericious::Config>
-
-=item *
-
-L<Clustericious>
-
-=back
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+
