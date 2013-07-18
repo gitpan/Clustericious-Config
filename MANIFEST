@@ -1,3 +1,4 @@
+.travis.yml
 Build.PL
 Changes
 LICENSE
@@ -13,11 +14,13 @@ lib/Clustericious/Command/configdebug.pm
 lib/Clustericious/Config.pm
 lib/Clustericious/Config/Helpers.pm
 lib/Clustericious/Config/Password.pm
+lib/Clustericious/Config/Plugin.pm
 lib/Test/Clustericious/Config.pm
 t/colen.t
 t/config.t
 t/config_multi.t
 t/data.t
+t/deprecate.t
 t/helper.t
 t/home.t
 t/hostname.t

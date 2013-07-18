@@ -60,7 +60,7 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/plicease/clustericious-config/issues"
@@ -72,6 +72,6 @@
          "web" : "https://github.com/plicease/clustericious-config"
       }
    },
-   "version" : "0.24_05"
+   "version" : "0.25"
 }
 

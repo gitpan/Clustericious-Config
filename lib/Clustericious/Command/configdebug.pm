@@ -8,7 +8,7 @@ use Clustericious::Config;
 use YAML::XS qw( Dump );
 
 # ABSTRACT: debug a clustericious configuration file
-our $VERSION = '0.24_05'; # VERSION
+our $VERSION = '0.25'; # VERSION
 
 
 has description => <<EOT;
@@ -80,7 +80,7 @@ Clustericious::Command::configdebug - debug a clustericious configuration file
 
 =head1 VERSION
 
-version 0.24_05
+version 0.25
 
 =head1 SYNOPSIS
 

@@ -45,4 +45,4 @@ resources:
   bugtracker: https://github.com/plicease/clustericious-config/issues
   homepage: http://perl.wdlabs.com/Clustericious-Config/
   repository: git://github.com/plicease/clustericious-config.git
-version: 0.24_05
+version: 0.25

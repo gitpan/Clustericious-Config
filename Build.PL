@@ -21,7 +21,7 @@ my %module_build_args = (
     "Graham Ollis <plicease\@cpan.org>"
   ],
   "dist_name" => "Clustericious-Config",
-  "dist_version" => "0.24_05",
+  "dist_version" => "0.25",
   "license" => "perl",
   "module_name" => "Clustericious::Config",
   "recommends" => {},

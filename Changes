@@ -1,5 +1,12 @@
 Revision history for Clustericious-Config
 
+0.25      2013-07-18 09:20:51 America/New_York
+  - promote to production
+
+0.24_06   2013-07-17 15:48:26 America/New_York
+  - rename Clustericious::Config::Plugin to ::Helpers
+  - create a deprecated module ::Plugin to keep Test::Clustericious::Cluster working
+
 0.24_05   2013-07-16 05:54:20 America/New_York
   - migrate to Dist::Zilla
 
