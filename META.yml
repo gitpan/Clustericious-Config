@@ -32,6 +32,7 @@ requires:
   Mojo::Base: 0
   Mojo::Loader: 0
   Mojo::Template: 0
+  Path::Class: 0.26
   Path::Class::Dir: 0
   Path::Class::File: 0
   Storable: 0
@@ -45,4 +46,4 @@ resources:
   bugtracker: https://github.com/plicease/clustericious-config/issues
   homepage: http://perl.wdlabs.com/Clustericious-Config/
   repository: git://github.com/plicease/clustericious-config.git
-version: 0.25
+version: 0.26

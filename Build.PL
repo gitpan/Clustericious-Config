@@ -21,7 +21,7 @@ my %module_build_args = (
     "Graham Ollis <plicease\@cpan.org>"
   ],
   "dist_name" => "Clustericious-Config",
-  "dist_version" => "0.25",
+  "dist_version" => "0.26",
   "license" => "perl",
   "module_name" => "Clustericious::Config",
   "recommends" => {},
@@ -41,6 +41,7 @@ my %module_build_args = (
     "Mojo::Base" => 0,
     "Mojo::Loader" => 0,
     "Mojo::Template" => 0,
+    "Path::Class" => "0.26",
     "Path::Class::Dir" => 0,
     "Path::Class::File" => 0,
     "Storable" => 0,

@@ -2,7 +2,7 @@ NAME
     Clustericious::Config - configuration files for Clustericious nodes.
 
 VERSION
-    version 0.25
+    version 0.26
 
 SYNOPSIS
     In your ~/etc/MyApp.conf file:
