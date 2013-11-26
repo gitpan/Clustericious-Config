@@ -27,3 +27,4 @@ pod_coverage:
     - Clustericious::Command::configdebug#run
     - Clustericious::Command::configdebug#usage
     - Clustericious::Config::Password#.*
+    - Clustericious::Config::Helpers#cluster

@@ -16,6 +16,8 @@ lib/Clustericious/Config/Helpers.pm
 lib/Clustericious/Config/Password.pm
 lib/Clustericious/Config/Plugin.pm
 lib/Test/Clustericious/Config.pm
+t/00_diag.t
+t/00_diag.txt
 t/colen.t
 t/config.t
 t/config_multi.t
@@ -42,3 +44,4 @@ xt/release/pod_spelling_common.t
 xt/release/pod_spelling_system.t
 xt/release/release.yml
 xt/release/strict.t
+xt/release/version.t

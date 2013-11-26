@@ -1,5 +1,7 @@
 Revision history for Clustericious-Config
 
+0.27      2013-11-26 11:23:26 America/New_York
+
 0.26      2013-08-31 14:31:30 America/New_York
   - require Path::Class 0.26 for spew()
 

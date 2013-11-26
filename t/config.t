@@ -6,7 +6,6 @@ use warnings;
 use Test::More qw/no_plan/;
 use File::Temp qw/tempdir/;
 use Clustericious::Config;
-use IO::File;
 
 my $dir = tempdir( CLEANUP => 1 );
 $ENV{CLUSTERICIOUS_CONF_DIR} = $dir;
@@ -15,8 +14,8 @@ $ENV{CLUSTERICIOUS_CONF_DIR} = $dir;
 # Make a common config file called common.conf
 #
 
-my $fp = IO::File->new("> $dir/common.conf");
-print $fp <<'EOT';
+open my $fh, '>', "$dir/common.conf";
+print $fh <<'EOT';
 {
    "override_me" : 9,
    "url"        : "<%= $url %>",
@@ -26,20 +25,20 @@ print $fp <<'EOT';
    }
 }
 EOT
-$fp->close;
+$fh->close;
 
 #
 # Make a special config file called special.conf
 #
 
-$fp = IO::File->new("> $dir/special.conf");
-print $fp <<'EOT';
+open $fh, '>', "$dir/special.conf";
+print $fh <<'EOT';
 {
    "specialvalue"  : 123,
    "override_me"   : 10
 }
 EOT
-$fp->close;
+$fh->close;
 
 
 #

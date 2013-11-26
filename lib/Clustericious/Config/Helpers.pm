@@ -10,7 +10,7 @@ use base qw( Exporter );
 use JSON::XS qw( encode_json );
 
 # ABSTRACT: Helpers for clustericious config files.
-our $VERSION = '0.26'; # VERSION
+our $VERSION = '0.27'; # VERSION
 
 
 our @mergeStack;
@@ -115,7 +115,7 @@ Clustericious::Config::Helpers - Helpers for clustericious config files.
 
 =head1 VERSION
 
-version 0.26
+version 0.27
 
 =head1 SYNOPSIS
 

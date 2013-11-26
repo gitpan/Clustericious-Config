@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 # ABSTRACT: password routines for Clustericious::Config
-our $VERSION = '0.26'; # VERSION
+our $VERSION = '0.27'; # VERSION
 
 
 our $Stashed;
@@ -39,7 +39,7 @@ Clustericious::Config::Password - password routines for Clustericious::Config
 
 =head1 VERSION
 
-version 0.26
+version 0.27
 
 =head1 DESCRIPTION
 

@@ -9,7 +9,6 @@ my %module_build_args = (
   "build_requires" => {
     "File::HomeDir::Test" => 0,
     "File::Temp" => 0,
-    "IO::File" => 0,
     "Module::Build" => "0.3601",
     "Test::More" => 0
   },
@@ -21,7 +20,7 @@ my %module_build_args = (
     "Graham Ollis <plicease\@cpan.org>"
   ],
   "dist_name" => "Clustericious-Config",
-  "dist_version" => "0.26",
+  "dist_version" => "0.27",
   "license" => "perl",
   "module_name" => "Clustericious::Config",
   "recommends" => {},
@@ -38,12 +37,8 @@ my %module_build_args = (
     "List::Util" => 0,
     "Log::Log4perl" => 0,
     "Module::Build" => 0,
-    "Mojo::Base" => 0,
-    "Mojo::Loader" => 0,
-    "Mojo::Template" => 0,
+    "Mojolicious" => "3.85",
     "Path::Class" => "0.26",
-    "Path::Class::Dir" => 0,
-    "Path::Class::File" => 0,
     "Storable" => 0,
     "Sys::Hostname" => 0,
     "Term::Prompt" => 0,
