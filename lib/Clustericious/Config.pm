@@ -5,7 +5,7 @@ use warnings;
 use v5.10;
 
 # ABSTRACT: configuration files for Clustericious nodes.
-our $VERSION = '0.27'; # VERSION
+our $VERSION = '0.28'; # VERSION
 
 
 use Clustericious::Config::Password;
@@ -60,9 +60,6 @@ sub new {
     my $we_are_testing_this_module = 0;
     if(__PACKAGE__->_testing) {
         $we_are_testing_this_module = 0;
-    } elsif ($ENV{HARNESS_ACTIVE} and -d '_build' && -e '_build/build_params' && Module::Build->can("current")) {
-        my $mb = Module::Build->current;
-        $we_are_testing_this_module = $mb && $mb->module_name eq $arg;
     }
 
     my $conf_data;
@@ -185,10 +182,8 @@ sub AUTOLOAD {
     if ($default_exists && !exists($self->{$called})) {
         $self->{$called} = $args{default};
     }
-    unless ($ENV{HARNESS_ACTIVE}) {
-        Carp::cluck "config element '$called' not found for ".(ref $self)." (".(join ',',keys(%$self)).")"
-            if $called =~ /^_/ || !exists($self->{$called});
-    }
+    Carp::cluck "config element '$called' not found for ".(ref $self)." (".(join ',',keys(%$self)).")"
+        if $called =~ /^_/ || !exists($self->{$called});
     my $value = $self->{$called};
     my $obj;
     my $invocant = ref $self;
@@ -234,7 +229,7 @@ Clustericious::Config - configuration files for Clustericious nodes.
 
 =head1 VERSION
 
-version 0.27
+version 0.28
 
 =head1 SYNOPSIS
 
@@ -358,19 +353,6 @@ Returns a string with the configuration encoded as YAML.
 Cache a config object to be returned by the constructor.  Usage:
 
  Clustericicious::Config->set_singleton(App => $object);
-
-=head1 ENVIRONMENT
-
-If the environment variable HARNESS_ACTIVE is set,
-and the current module::build object tells us that
-the calling module is being tested, then an empty
-configuration is used.  In this situation, however,
-if the CLUSTERICIOUS_CONF_DIR environment variable
-is set and if it is a subdirectory of the current 
-directory, then it will be used.  This allows unit 
-tests to provide configuration directories, but 
-avoids using configurations that are outside of 
-the build tree during unit testing.
 
 =head1 CAVEATS
 

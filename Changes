@@ -1,6 +1,10 @@
 Revision history for Clustericious-Config
 
+0.28      2014-04-09 12:06:48 America/New_York
+  - remove test harness detection
+
 0.27      2013-11-26 11:23:26 America/New_York
+  - rm dep on IO::File
 
 0.26      2013-08-31 14:31:30 America/New_York
   - require Path::Class 0.26 for spew()
