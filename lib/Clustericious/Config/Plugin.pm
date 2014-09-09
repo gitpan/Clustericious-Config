@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use Clustericious::Config::Helpers;
 
-# ABSTRACT: deprecated module
-our $VERSION = '0.28'; # VERSION
+# ABSTRACT: Deprecated module
+our $VERSION = '0.29'; # VERSION
 
 
 # Hack to keep old versions of Test::Clustericious::Cluster working
@@ -23,11 +23,11 @@ __END__
 
 =head1 NAME
 
-Clustericious::Config::Plugin - deprecated module
+Clustericious::Config::Plugin - Deprecated module
 
 =head1 VERSION
 
-version 0.28
+version 0.29
 
 =head1 DESCRIPTION
 

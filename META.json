@@ -1,5 +1,5 @@
 {
-   "abstract" : "configuration files for Clustericious nodes.",
+   "abstract" : "Configuration files for Clustericious nodes.",
    "author" : [
       "Graham Ollis <plicease@cpan.org>"
    ],
@@ -68,6 +68,6 @@
          "web" : "https://github.com/plicease/clustericious-config"
       }
    },
-   "version" : "0.28"
+   "version" : "0.29"
 }
 

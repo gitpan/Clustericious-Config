@@ -10,11 +10,11 @@ use base qw( Exporter );
 use JSON::XS qw( encode_json );
 
 # ABSTRACT: Helpers for clustericious config files.
-our $VERSION = '0.28'; # VERSION
+our $VERSION = '0.29'; # VERSION
 
 
 our @mergeStack;
-our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full json );
+our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full json yaml );
 
 
 sub extends_config {
@@ -104,6 +104,16 @@ sub json ($)
 }
 
 
+sub yaml ($)
+{
+  require YAML::XS;
+  local $YAML::UseHeader = 0;
+  my $str = YAML::XS::Dump($_[0]);
+  $str =~ s{^---\n}{};
+  $str;
+}
+
+
 1;
 
 __END__
@@ -115,7 +125,7 @@ Clustericious::Config::Helpers - Helpers for clustericious config files.
 
 =head1 VERSION
 
-version 0.28
+version 0.29
 
 =head1 SYNOPSIS
 
@@ -161,6 +171,10 @@ The system hostname in full, including the domain, if
 it can be determined (uses L<Sys::Hostname>).
 
 =head2 json $ref
+
+Encode the given hash or list reference.
+
+=head2 yaml $ref
 
 Encode the given hash or list reference.
 

@@ -33,6 +33,7 @@ t/special.t
 t/test_clustericious_config.t
 t/use.t
 t/yaml.t
+t/yaml2.t
 xt/release/build_environment.t
 xt/release/changes.t
 xt/release/eol.t
@@ -44,4 +45,5 @@ xt/release/pod_spelling_common.t
 xt/release/pod_spelling_system.t
 xt/release/release.yml
 xt/release/strict.t
+xt/release/unused_vars.t
 xt/release/version.t

@@ -16,6 +16,8 @@ create_config_ok Foo => <<EOF;
 ---
 test_dir: <%= dir home, qw( foo bar baz ) %>
 test_file: <%= file home, qw( foo bar baz here.txt ) %>
+conf_file: <%= __FILE__ %>
+conf_line: <%= __LINE__ %>
 EOF
 
 my $config = eval { Clustericious::Config->new('Foo') };
@@ -29,3 +31,6 @@ ok $dir && -d $dir, "dir = $dir";
 my $file = eval { $config->test_file };
 diag $@ if $@;
 ok $file && -f $file, "file = $file";
+
+note "conf_file: " . $config->conf_file;
+note "conf_line: " . $config->conf_line;

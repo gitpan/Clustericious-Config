@@ -7,8 +7,8 @@ use Mojo::Base 'Clustericious::Command';
 use Clustericious::Config;
 use YAML::XS qw( Dump );
 
-# ABSTRACT: debug a clustericious configuration file
-our $VERSION = '0.28'; # VERSION
+# ABSTRACT: Debug a clustericious configuration file
+our $VERSION = '0.29'; # VERSION
 
 
 has description => <<EOT;
@@ -76,11 +76,11 @@ __END__
 
 =head1 NAME
 
-Clustericious::Command::configdebug - debug a clustericious configuration file
+Clustericious::Command::configdebug - Debug a clustericious configuration file
 
 =head1 VERSION
 
-version 0.28
+version 0.29
 
 =head1 SYNOPSIS
 

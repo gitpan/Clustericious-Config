@@ -12,12 +12,12 @@ my %module_build_args = (
   "configure_requires" => {
     "Module::Build" => "0.3601"
   },
-  "dist_abstract" => "configuration files for Clustericious nodes.",
+  "dist_abstract" => "Configuration files for Clustericious nodes.",
   "dist_author" => [
     "Graham Ollis <plicease\@cpan.org>"
   ],
   "dist_name" => "Clustericious-Config",
-  "dist_version" => "0.28",
+  "dist_version" => "0.29",
   "license" => "perl",
   "module_name" => "Clustericious::Config",
   "recommends" => {},

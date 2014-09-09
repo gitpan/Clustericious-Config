@@ -25,14 +25,21 @@ EOT
 is $confa->a, 'valuea', "value a set";
 is $confa->b, 'valueb', "value b set";
 
-eval { $confa->missing };
-like $@, qr/'missing' not found/, "missing a value";
+do {
 
-eval { $confb->missing };
-like $@, qr/'missing' not found/, "missing a value";
+  no warnings 'redefine';
+  local *Carp::cluck = sub { };
 
-eval { $confb->b };
-like $@, qr/'b' not found/, "no autovivivication in other classes";
+  eval { $confa->missing };
+  like $@, qr/'missing' not found/, "missing a value";
+
+  eval { $confb->missing };
+  like $@, qr/'missing' not found/, "missing a value";
+
+  eval { $confb->b };
+  like $@, qr/'b' not found/, "no autovivivication in other classes";
+
+};
 
 is $confb->c(default => ''), '', "no autovivication in other classes";
 

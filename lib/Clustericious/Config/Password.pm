@@ -4,8 +4,8 @@ use Data::Dumper;
 use strict;
 use warnings;
 
-# ABSTRACT: password routines for Clustericious::Config
-our $VERSION = '0.28'; # VERSION
+# ABSTRACT: Password routines for Clustericious::Config
+our $VERSION = '0.29'; # VERSION
 
 
 our $Stashed;
@@ -35,11 +35,11 @@ __END__
 
 =head1 NAME
 
-Clustericious::Config::Password - password routines for Clustericious::Config
+Clustericious::Config::Password - Password routines for Clustericious::Config
 
 =head1 VERSION
 
-version 0.28
+version 0.29
 
 =head1 DESCRIPTION
 

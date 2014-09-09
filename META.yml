@@ -1,5 +1,5 @@
 ---
-abstract: 'configuration files for Clustericious nodes.'
+abstract: 'Configuration files for Clustericious nodes.'
 author:
   - 'Graham Ollis <plicease@cpan.org>'
 build_requires:
@@ -41,4 +41,4 @@ resources:
   bugtracker: https://github.com/plicease/clustericious-config/issues
   homepage: http://perl.wdlabs.com/Clustericious-Config/
   repository: git://github.com/plicease/clustericious-config.git
-version: 0.28
+version: 0.29
