@@ -5,7 +5,7 @@ use Clustericious::Config;
 use Test::More tests => 3;
 use File::Temp qw( tempdir );
 
-do {
+eval {
   
   my $dir = tempdir( CLEANUP => 1);
   my $users_home = sub {
@@ -14,7 +14,9 @@ do {
 
   no warnings 'redefine';
   *File::HomeDir::Test::users_home = $users_home;
+  *File::HomeDir::users_home = $users_home;
 };
+die $@ if $@;
 
 create_config_ok 'Foo', <<EOF;
 ---

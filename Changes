@@ -1,5 +1,8 @@
 Revision history for Clustericious-Config
 
+0.30      2014-10-07 05:45:25 America/New_York
+  - fix test error for when File::HomeDir->users_home is not implemented
+
 0.29      2014-09-09 16:29:06 America/New_York
   - added yaml helper for dumping yaml
 
